@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Register Form</title>
+</head>
+<body>
+    <div class="container">
+        <form class="register-form" action="" id="registerFormElement" method="POST">
+            <img src="assets/user.png" alt="User Icon" class="user-icon">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="Password" required>
+            </div>
+            <button type="submit" class="form-button" id="submitBtn">Register</button>
+        </form>
+        <div id="message" style="display: none;"></div>
+    </div>
+
+    <script>
+        const registerFormElement = document.getElementById('registerFormElement');
+
+        registerFormElement.addEventListener('submit', function(event){
+            event.preventDefault();
+
+            const formData = new FormData(registerFormElement);
+
+            fetch('http://localhost/project/backend/route/register.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert(data.message);
+
+                if(data.message === 'Registered Successfully') {
+                    window.location.href = 'dashboard.php';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
